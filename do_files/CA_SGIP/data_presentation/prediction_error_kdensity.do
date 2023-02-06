@@ -8,6 +8,6 @@ twoway (kdensity PE_ATB_adv if PE_ATB_adv>-2, bwidth(0.05) lwidth(thick)) ///
 	graphregion(color(white) margin(b=0 r=3 t=0 l=0)) bgcolor(white) ///
 	legend(position(10) yoffset(-4) order(1 "Linear (ATB Advanced)" 2 "Translog") ///
 	ring(0) size(medium) region(fcolor(none) lcolor(none) lwidth(none)) rows(3)) ///
-	name("Figure_11", replace)
+	name("Figure_12", replace)
 
 graph export "manuscript\graphs\CA_SGIP\pct_error_dist.pdf", as(pdf) name("Figure_12") replace
