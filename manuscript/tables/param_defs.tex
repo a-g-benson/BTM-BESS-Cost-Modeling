@@ -1,0 +1,15 @@
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+\begin{tabularx}{\textwidth}{c>{\hsize=1.0\hsize\linewidth=\hsize}X}
+\hline
+\Tstrut Parameter & Defintion                             \\ \hline
+\Tstrut $\alpha^{s}_{t}$       & sector-year fixed effect, where $s \in \{R,NR\}$ (Residential or Non-Residential) and $t \in [2013, 2021]$   \\ \hline
+$\beta_1$               & first-order marginal effect of log-energy capacity              \\ \hline
+$\beta_2$               & first-order marginal effect of log-power capacity               \\ \hline
+$\gamma_1$              & second-order marginal effect of log-energy capacity      \\ \hline
+$\gamma_2$               & second-order marginal effect of log-power capacity      \\ \hline 
+$\gamma_3$             & interaction effect of log-energy and log-power capacity   \\ \hline
+$\delta_1$             & incremental cost of AC-coupling with distribution generation \\ \hline
+$\delta_2$             & incremental cost of DC-coupling with distribution generation  \\ \hline
+$\delta_3$             & elasticity of installed cost with respect to local median wage for electricians \\ \hline
+\end{tabularx}

@@ -1,0 +1,12 @@
+\renewcommand\tabularxcolumn[1]{m{#1}}
+
+\begin{tabularx}{\textwidth}{cc>{\hsize=1.0\hsize\linewidth=\hsize}Xc}
+\hline
+\Tstrut Symbol & \multicolumn{1}{c}{Variable Name} & \multicolumn{1}{c}{Definition}                                   & \multicolumn{1}{c}{Unit of Measure} \\ \hline
+\Tstrut $C_i$   & \begin{tabular}[c]{@{}c@{}}Installed\\ Cost\end{tabular}                    & inflation-adjusted, SGIP-eligible expenses                       & 2020-USD                            \\ \hline
+$E_i$   & \begin{tabular}[c]{@{}c@{}}Energy\\ Capacity\end{tabular}                   & usable energy capacity, adjusted for inverter losses             & kWh                                 \\ \hline
+$P_i$   & \begin{tabular}[c]{@{}c@{}}Power\\ Capacity\end{tabular}                    & AC-rated power capacity                                          & kW                                  \\ \hline
+$AC_i$  & AC-Coupling                       & equals 1 if AC-coupled with distributed generation               & \{0, 1\}                            \\ \hline
+$DC_i$  & DC-Coupling                       & equals 1 if DC-coupled with distributed generation               & \{0, 1\}                            \\ \hline 
+$w^{c}_t$   & \begin{tabular}[c]{@{}c@{}}Wages of\\ Electricians\end{tabular}            & inflation-adjusted median hourly wage of electricians            & 2020-USD/hour                       \\ \hline
+\end{tabularx}

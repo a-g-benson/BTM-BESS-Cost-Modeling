@@ -1,0 +1,41 @@
+\section{Estimation Results of the Cobb-Douglas Model}\label{apdx:cobb_douglas}
+
+Table \ref{reg:predict_CD} presents the estimated parameters of Eq. \ref{eq:predict_CD}, the Cobb-Douglas equivalent to Eq. \ref{eq:predict_TL}. In this appendix, I discuss the interpretation of the results.
+
+\begin{align}
+    \ln(C_i) = &~\alpha^{s}_{t} + \beta_1 \ln(E_i) + \beta_2 \ln(P_i) + \delta_1 AC_i + \delta_2 DC_i  \label{eq:predict_CD} \\
+		 & + \delta_3 ln(w^{c}_{t}) + \varepsilon_i \nonumber
+\end{align}
+
+\begin{table}[t]
+\centering
+\input{tables/reg/predict_CD.tex}
+\caption{Estimated Parameters of Eq. \ref{eq:predict_CD}}\label{reg:predict_CD}
+\end{table}
+
+\subsection{Scale Parameters}\label{apdx:scale_CD}
+
+The scale parameter for energy capacity ($\beta_1$) is estimated to be 0.637 ($\pm$ 0.060) and the scale parameter for power capacity ($\beta_2$) is estimated to be 0.217 ($\pm$ 0.061). The sum of these two parameters is 0.854 ($\pm$ 0.009), which indicates that BTM BESS exhibits moderate economies of scale. The interpretation of this number is that simultaneously increasing the energy capacity and power capacity by an order of magnitude is predicted to reduce the average cost per kilowatt-hour by approximately 28.6\% ($\pm$ 1.5\%).\footnote{$10^{0.854-1}-1=-0.286$}
+
+As indicated by the margins of error in parentheses, there is greater uncertainty in the estimates of the individual parameters than their sum. This is a consequence of the high collinearity of energy and power capacity. It is unfortunate that nearly all of the variation in the ratio of energy to power in the SGIP sample arises primarily from the moderately different product sizing decisions of the two most dominant manufacturers in the market, Tesla and LG. This means that estimates of the marginal effect of energy or power, while holding the other constant, are not credibly disentangled from any potentially important but unobserved differences in the design of the BESS that is associated with the identity of the manufacturer.
+
+For example, Tesla requires the installation of its proprietary ``Backup Gateway,'' an internet-connected device that monitors and controls the behavior of the Powerwall, solar inverters, solar panels, and the customer's grid connection. In comparison, LG instructs its customers to buy an inverter that pairs with the RESU10 and performs similar functions. The RESU10 is a DC-coupled battery, so the cost of the inverter is inframarginal for the typical consumer planning to go solar and deciding whether to add a BESS or not. Since the RESU10 and Powerwall 2 have identical power capacity but the energy capacity of the Powerwall 2 is larger, ordinary least squares may wrongly infer that the additional costs arising from Tesla's Backup Gateway are a type of cost that scales with a higher ratio of energy to power. In reality, the Backup Gateway is a fixed cost: Tesla customers need only purchase one Backup Gateway, which can manage up to ten Powerwalls.
+
+To evaluate the sensitivity of the scale parameters to this issue, I augment Eq. \ref{eq:predict_CD} with an additional fixed effect corresponding to the identity of the battery manufacturer. Estimating this modified regression on the SGIP data returns $\hat{\beta}_1 = 0.781$ ($\pm$ 0.071) and $\hat{\beta}_2 = 0.119$ ($\pm$ 0.070). The sum of these parameters is 0.901 ($\pm$ 0.008). Again, the degree of economies of scale can be pinned down with a high degree of confidence, whereas the individual parameters for the marginal effects of power and energy are more uncertain.
+
+For a point of comparison, I estimate a Cobb-Douglas model of large portable batteries, with an assortment of fixed effects.\footnote{There are no sector fixed effects as these products are marketed predominantly to household consumers. There are no year fixed effects, since all the data were gathered within a single narrow window of time.} The results are presented in Table \ref{reg:CD_portable}. The scale parameters vary slightly from specification to specification, but broadly they are in agreement that a much greater weight---between 4 and 6 times greater---on the energy capacity relative to the power capacity. Unlike stationary BTM BESS, large portable batteries do not exhibit statistically significant economies of scale (formally, we cannot reject the hypothesis that $\beta_1 + \beta_2 \geq 1$).
+
+\begin{table}[t]
+\centering
+\input{tables/reg/CD_portable}
+\caption{Cobb-Douglas Model of the Retail Price of Large Portable Batteries}\label{reg:CD_portable}
+\end{table}
+
+\subsection{Sector-Year Fixed Effects}\label{apdx:CD_trends}
+
+\begin{figure}[t]
+\includegraphics[width=\textwidth]{graphs/CA_SGIP/CSCI_CD.pdf}
+\caption{Sector-Year Fixed Effects from Eq. \ref{eq:CD}, normalized such that $\alpha^{Res.}_{2016} = 100$}\label{fig:CSCI_CD}
+\end{figure}
+
+Figure \ref{fig:CSCI_CD} presents the estimated sector-year fixed effects of Table \ref{reg:predict_CD} in a visual format. For ease of interpretation, I have normalized all values such that the fixed effect for the residential sector in 2016 is equal to 100, following Eq. \ref{eq:CSCI}. The sector-specific trends estimated by the Cobb-Douglas model are virtually indistinguishable from those estimated by the translog model (\textit{cf.} Figure \ref{fig:CSCI_TL}).

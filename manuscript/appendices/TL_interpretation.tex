@@ -1,0 +1,99 @@
+\section{Derivation of the Interpretation of the Parameters of the Translog Cost Function for BTM BESS}\label{apdx:TL_interpretation}
+
+This appendix presents the derivation of the interpretation of the parameters of the translog cost function (Eq. \ref{eq:predict_TL}), which I present again below for the convenience of the reader:
+
+\begin{align*}
+    \ln(C_i) = &~\alpha^{s}_{t} + \beta_1 \ln(E_i) + \beta_2 \ln(P_i) + \gamma_1 \ln(E_i)^2 + \gamma_2 \ln(P_i)^2  \tag{\ref{eq:predict_TL}} \\
+		 & + \gamma_3 \ln(E_i) \ln(P_i) + \delta_1 AC_i + \delta_2 DC_i + \delta_3 \ln(w^{c}_{t}) + \varepsilon_i \nonumber
+\end{align*}
+
+Throughout this appendix, I omit the subscript $i$ (denoting individual observations) to streamline the presentation. 
+
+\subsection{Marginal Costs of Energy Capacity, Power Capacity and Discharge Duration}\label{apdx:mc_derivation}
+
+In this section, I derive the marginal costs of extending the energy capacity ($MC_{E}$) and power capacity ($MC_{P}$). I also derive the related marginal cost of extending the discharge duration ($MC_{D}$), which is slightly different way of expressing the marginal cost of extending energy capacity.
+
+\begin{subequations}\label{eq:MC_defs}
+\begin{align}
+	MC_{E} \equiv &~\frac{\partial C}{\partial E}\Big\rvert_{P} \label{eq:MCe_def} \\
+	MC_{P} \equiv &~\frac{\partial C}{\partial P}\Big\rvert_{E}\label{eq:MCp_def} \\
+	MC_{D} \equiv &~\frac{\partial C}{\partial D}\Big\rvert_{P}  \label{eq:MCd_def} 
+\end{align}
+\end{subequations}
+
+The partial derivative of the natural log of installed cost with respect to any of the variables of interest ($X$, for generality) exhibits a useful relationship to Eq. \ref{eq:predict_TL} and the marginal costs defined in Eqs. \ref{eq:MC_defs}:
+
+\begin{align}\label{eq:MC_TC}
+	\frac{\partial \ln(C)}{\partial X} = \frac{\frac{\partial C}{\partial X}}{C} = \frac{MC_X}{C} \notag \\
+	MC_X = C \cdot \frac{\partial \ln(C)}{\partial X}
+\end{align}
+
+In words, ``the marginal cost is equal to the installed cost times the percentage change of installed cost arising from a incremental change in $X$.'' This step eliminates the need to exponentiate Eq. \ref{eq:predict_TL} before computing its partial derivatives:
+
+\begin{subequations}\label{eq:lnTC_partials}
+\begin{align}
+    \frac{\partial \ln(C)}{\partial E} &= \frac{\beta_1 + 2 \gamma_1 \ln(E) + \gamma_3 \ln(P)}{E} \label{eq:lnTC_partial_e} \\
+    \frac{\partial \ln(C)}{\partial P} &= \frac{\beta_2 + 2 \gamma_2 \ln(P) + \gamma_3 \ln(E)}{P} \label{eq:lnTC_partial_p} \\
+    \frac{\partial \ln(C)}{\partial D} &= \frac{\beta_1 + 2 \gamma_1[\ln(P)+\ln(D)] + \gamma_3 \ln(P)}{D} \label{eq:lnTC_partial_d}
+\end{align}
+\end{subequations}
+
+However, Eq. \ref{eq:predict_TL} must be reverse log-transformed before it can be substituted into Eq. \ref{eq:MC_TC}. This is a fairly trivial matter, except for the issue of the error term. While  $\varepsilon$ is zero in expectation, $\exp(\varepsilon)$ is not. The standard correction for retransformation bias of any model with a log-transformed dependent variable is to substitute one-half the square of the root-mean-square error (RMSE) in place of the error term before exponentiation \citep{miller1984}. Thus, the predicted value of installed cost ($\widehat{C}$) is given by:
+
+\begin{equation}\label{eq:TC_hat}
+\begin{split}
+\widehat{C} =  & E^{\beta_1} P^{\beta_2} \exp(\alpha^{s}_{t} + \gamma_1 \ln(E)^2 + \gamma_2 \ln(P)^2 \\
+		 & + \delta_1 AC_i + \delta_2 DC_i + \delta_3 \ln(w^{c}_{t}) + 0.5 RMSE^2)
+\end{split}
+\end{equation}
+
+Finally, I substitute Eq. \ref{eq:TC_hat} and Eqs. \ref{eq:lnTC_partials} into Eq. \ref{eq:MC_TC} to produce the final result. 
+
+\begin{subequations}\label{eq:MC_results}
+\begin{align}
+    MC_{E} =&~[\beta_1 + 2 \gamma_1 \ln(E) + \gamma_3 \ln(P)] E^{\beta_1-1} P^{\beta_2}  \label{eq:MCe_result} \\ & exp(\alpha^{s}_{t} + \gamma_1 \ln(E)^2 + \gamma_2 \ln(P)^2 \notag \\
+    & + \gamma_3 \ln(E) \ln(P) + 0.5 RMSE^2) \notag \\
+    MC_{P} =&~[\beta_2 + 2 \gamma_2 \ln(P) + \gamma_3 \ln(E)] E^{\beta_1} P^{\beta_2-1}  \label{eq:MCp_result} \\ & exp(\alpha^{s}_{t} + \gamma_1 \ln(E)^2 + \gamma_2 \ln(P)^2 \notag \\
+    & + \gamma_3 \ln(E) \ln(P) + 0.5 RMSE^2) \notag \\
+    MC_{D}  =&~[\beta_1 + 2 [\gamma_1 \ln(P) + \ln(D)] + \gamma_3 \ln(P)] D^{\beta_1-1} P^{\beta_1+\beta_2}  \label{eq:MCd_result} \\ & exp(\alpha^{s}_{t} + \gamma_1 [\ln(P)+\ln(D)]^2 + \gamma_2 \ln(P)^2 \notag \\
+    & + \gamma_3 [\ln(P)+\ln(D)] \ln(P) + 0.5 RMSE^2) \notag 
+\end{align}
+\end{subequations}
+
+Observe that in Eqs. \ref{eq:lnTC_partial_d} and \ref{eq:MCd_result}, I decompose $E$ into $P$ and $D$. This clarifies that, in computing $MC_D$, the power rating is held constant while sufficient energy capacity is added to extend the discharge duration. With $MC_E$, the interpretation is that exactly one kilowatt-hour of energy capacity is to be added; the extent to which such an addition extends discharge duration will vary with the power rating of the BESS.
+
+\subsection{Economies of Scale}\label{apdx:eos_derivation}
+
+The degree of economies (or diseconomies) of scale intrinsic to the installed cost of a BTM BESS is characterized by:
+
+\begin{equation}\label{eq:eos_def}
+    \eta \equiv \frac{C(\theta E, \theta P)}{\theta C(E, P)}
+\end{equation}
+
+$\theta$ represents any arbitrary increase (if greater than one) or decrease (if less than one) in the size of the system realtive to some baseline size ($E, P$). $\eta$ represents the ratio of the installed cost a single system sized ($\theta E$, $\theta P$) relative the installed cost of $\theta$ systems sized ($E$, $P$). For the case of $\theta >1$, the installed cost function is said to exhibit economies of scale when $\eta$ is less than one, or diseconomies of scale when $\eta$ is greater than one.
+
+I log-transform Eq. \ref{eq:eos_def} and substitute in Eq. \ref{eq:predict_TL}:
+
+\begin{align*}
+\ln(\eta) =&~\ln(C(\theta E, \theta P))-\ln(\theta) - \ln(C(E, P)) \\
+\ln(\eta) =&~[\alpha^{s}_{t} + \beta_1 \ln(\theta E) + \beta_2 \ln(\theta P) + \gamma_1 \ln(\theta E)^2 + \gamma_2 \ln(\theta P)^2 \\ 
+		 & + \gamma_3 \ln(\theta E) \ln(\theta P) + ... + \varepsilon] - \ln(\theta) - [\alpha^{s}_{t} + \beta_1 \ln(\theta E) + \beta_2 \ln(\theta P) \\ 
+		 & + \gamma_1 \ln(\theta E)^2 + \gamma_2 \ln(\theta P)^2 + \gamma_3 \ln(\theta E) \ln(\theta P) + ... + \varepsilon] \\ 
+\ln(\eta) =&~(\beta_1 + \beta_2 -1) \ln(\theta) + \gamma_1[2 \ln(E) \ln(\theta) + \ln(\theta)^2] \\ 
+        & + \gamma_2[2 \ln(P) \ln(\theta) + \ln(\theta)^2] + \gamma_3 [\ln(\theta)\ln(E) + \ln(\theta)ln(P)+\ln(\theta)^2] \\ 
+\ln(\eta) =&~\big[\beta_1 + \beta_2 -1 + \gamma_1[2 \ln(E) + \ln(\theta)] + \gamma_2[2 \ln(P) + \ln(\theta)]\\
+        &~+ \gamma_3 [\ln(E) + \ln(P)+ln(\theta)]\big]\ln(\theta) \\ 
+\end{align*}
+
+Finally, I undo the log-transformation\footnote{In this case, the error terms cancelled out, so retransformation bias does not enter under this operation.} to arrive at a closed-form solution for $\eta$:
+\begin{equation}\label{eq:eos_TL}
+\begin{split}
+\eta   =\theta^{\beta_1 + \beta_2 -1 + (\gamma_1 + \gamma_2 + \gamma_3) \ln(\theta) + (2\gamma_1 + \gamma_3) \ln(E) + (2\gamma_2 + \gamma_3) \ln(P)}\\ 
+\end{split}
+\end{equation}
+
+Eq. \ref{eq:eos_TL} reveals that, for the translog cost function, $\eta$ is a function not only of $\theta$ but also the baseline values of E and P against which different system sizes are compared. For comparison, the equivalent expression for a Cobb-Douglas model of installed cost is:
+
+\begin{equation}\label{eq:eos_CD}
+\eta   =\theta^{\beta_1 + \beta_2 -1} \\ 
+\end{equation}
