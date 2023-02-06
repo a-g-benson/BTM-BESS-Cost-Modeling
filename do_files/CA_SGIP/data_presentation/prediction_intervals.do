@@ -52,3 +52,5 @@ di round(exp(invlaplace(median,mad,z_lower)),0.0001)
 
 di round(exp(median-mad*ln(0.05)),0.0001)
 di round(exp(median+mad*ln(0.05)),0.0001)
+
+clear
