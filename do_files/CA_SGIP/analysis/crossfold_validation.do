@@ -5,7 +5,6 @@ use "data\CA_SGIP\TTS_SGIP.dta"
 
 capture program drop crossfold_avg
 program define crossfold_avg, rclass
-	version 17.0
 	args k
 	
 	matrix a = r(est)
