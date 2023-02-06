@@ -1,0 +1,156 @@
+name,type,isnumeric,varlab
+___Program_Data___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ApplicationCode,str19,0,Application Code
+SGIPAdministrator,str29,0,SGIP Administrator (string)
+SGIPAdminCode,long,1,SGIP Administrator (numeric)
+ProgramYear,int,1,Program Year
+IncentiveLevel,byte,1,Generosity of SGIP Incentive (2001-2016 rules)
+IncentiveStep,byte,1,Generosity of SGIP Incentive (2017-present rules)
+BudgetCategory,str30,0,Budget Category (string)
+BudgetCategoryCode,long,1,Budget Category (numeric)
+BudgetClassification,str19,0,Budget Classification
+FullyQualifiedState,str24,0,Fully Qualified State
+___Technical_Specs___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+EquipmentType,str26,0,Equipment Type
+FuelType,str24,0,Fuel Type
+BiogasSource,str8,0,Biogas Source
+RenewablePercentage,byte,1,Renewable Fuel Percentage
+PairedWith,str31,0,Paired With
+PairedWithRenewable,byte,1,Paired with Renewable Generation
+StandAlone,float,1,=1 if not paired with generation
+kW,float,1,Rated Power Capacity [kW]
+ln_kW,float,1,ln(Rated Power Capacity [kW])
+kWh,float,1,Energy Storage Capacity (kWh)
+ln_kWh,float,1,ln(Energy Storage Capacity [kWh])
+duration,float,1,Discharge Duration (hours)
+duration_bin,float,1,Discharge Duration (categorical)
+___Companies_Involved___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ManufacturerName,str60,0,Equipment Manufacturer
+ManufacturerCode,long,1,Equipment Manufacturer
+DeveloperName,str82,0,Developer Company Name
+InstallerName,strL,0,Installer Name
+InstallerCode,long,1,Installer Name
+TeslaMan,float,1,=1 if Manufacturer is Tesla
+TeslaDev,float,1,=1 if Developer is Tesla (or SolarCity)
+TeslaInst,float,1,=1 if Installer is Tesla (or SolarCity)
+LGMan,float,1,=1 if Manufacturer is LG
+EnphaseMan,float,1,=1 if Manufacturer is Enphase
+OtherMan,float,1,"=1 if Manufacturer is neither Tesla, LG, nor Enphase"
+hhi_developer,float,1,Herfindahl-Hirschman Index by Developer (within County-Sector-Year)
+hhi_installer,float,1,Herfindahl-Hirschman Index by Installer (within County-Sector-Year)
+ln_exp_Dev,float,1,ln(Cumulative Installed Base of the Developer in kWh)
+ln_exp_Inst,float,1,ln(Cumulative Installed Base of the Installer in kWh)
+competitor_count,float,1,"Raw Count of Unique Installers Operating in same county, as of this year"
+lag_competitor_count,float,1,"Raw Count of Unique Installers Operating in same county, as of last year"
+___Customer_Data___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+HostCustomerSector,str25,0,Host Customer Sector
+Residential,float,1,=1 if Residential
+HostCustomerSICNAICSCode,str21,0,Host Customer SIC/NAICS Code
+___Location_Data___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+ZIP,long,1,ZIP Code
+City,str37,0,
+County,str56,0,County (string)
+CountyCode,long,1,County (numeric)
+County_by_ZIP,str15,0,County identified by ZIP code
+MSA_code,str7,0,Metropolitan Statistical Area (code)(BLS)
+MSA_name,str73,0,Metropolitan Statistical Area (string)(BLS)
+reliable_location,float,1,=1 if County and ZIP match
+WestLALRA,str5,0,West LA LRA
+ElectricUtility,str76,0,Electric Utility (string)
+ElecUtilityCode,long,1,Electric Utility (numeric)
+GasUtility,str38,0,Gas Utility
+___County_Data___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+has_ACS_data,byte,1,Matching result from merge
+has_BEA_data,byte,1,Matching result from merge
+CountyPop_ACS,long,1,County Population (ACS)
+ln_CountyPop_ACS,float,1,ln(County Population)(ACS)
+CountyPop_BEA,double,1,County Population (persons)
+ln_CountyPop_BEA,float,1,ln(County Population)(BEA)
+MedHHInc,long,1,County Median Household Income (ACS 5-Year Estimates)
+ln_MedHHInc,float,1,ln(County Median Income)(2019 dollars)
+PCPI,double,1,County Per Capita Personal Income (nominal dollars)
+ln_PCPI,float,1,ln(County Per Capita Personal Income) (nominal)(BEA)
+PCPI_2020,float,1,County Per Capita Personal Income (2020 dollars)
+ln_PCPI_2020,float,1,ln(County Per Capita Personal Income) (2020 dollars)
+PI,double,1,County Personal income (thousands of nominal dollars)
+ln_PI,float,1,"ln(County Personal income) (thousands, nominal)(BEA)"
+elec_wage_mean,double,1,Mean Hourly Wage for Electricians in MSA (nominal dollars)(BLS)
+elec_wage_median,double,1,Median Hourly Wage for Electricians in MSA (nominal dollars)(BLS)
+ln_elec_wage_mean,float,1,ln(Mean Hourly Wage for Electricians)(nominal dollars)(BLS)
+ln_elec_wage_median,float,1,ln(Mean Hourly Wage for Electricians)(nominal dollars)(BLS)
+elec_wage_mean_2020,float,1,Mean Hourly Wage for Electricians (2020 dollars)
+ln_elec_wage_mean_2020,float,1,ln(Mean Hourly Wage for Electricians)(2020 dollars)
+elec_wage_median_2020,float,1,median Hourly Wage for Electricians (2020 dollars)
+ln_elec_wage_median_2020,float,1,ln(median Hourly Wage for Electricians)(2020 dollars)
+has_BLS_data,byte,1,Matching result from merge
+___Dates___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+RRFSubmittedDate,float,1,
+DateReceived,float,1,Date when the RFF was Received
+ICDate,float,1,Interconnection Date
+ICMonth,float,1,Interconnection Month
+ICYear,float,1,Interconnection Year
+DateTimeReceived,str28,0,Date-Time when the RRF was Received
+PaymentCompletedDate,str10,0,Payment Completed Date
+CancelledDate,str10,0,Cancelled Date
+___Money___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+FuelIncentive,long,1,Fuel Incentive ($)
+EquipmentIncentive,float,1,Equipment Incentive ($)
+SGIPIncentive,float,1,Current Incentive ($)
+OtherIncentiveSource,strL,0,Source of Additional Incentive Money
+OtherIncentiveAmount,float,1,Other Incentive Amount ($)
+TI,float,1,Total Incentive Funding
+ln_TI,float,1,
+TEC,float,1,Total Eligible Costs
+ln_TEC,float,1,ln(Total Eligible Costs)
+___Money_2020___,float,1,~ ~ (Montetary Values in 2020 Dollars) ~ ~
+PCEPI,double,1,Personal Consumption Expenditures: Chain-type Price Index
+inflation_factor,float,1,Factor for Inflation-Adjustment to year 2020 dollars
+TI_2020,float,1,Total Incentive Funding (2020 dollars)
+ln_TI_2020,float,1,ln(Total Incentive Funding) (2020 dollars)
+TEC_2020,float,1,Total Eligible Cost (2020 dollars)
+ln_TEC_2020,float,1,ln(Total Eligible Cost) (2020 dollars)
+___Sample___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+sample,float,1,
+___Temp_Vars___,float,1,~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+___TTS_Vars___,float,1,~ ~ ~ (Data from TTS) ~ ~ ~
+third_party_owned,byte,1,
+new_construction,byte,1,
+expansion_system,byte,1,
+multiple_phase_system,byte,1,
+self_installed,byte,1,
+InstallationDate_PV,float,1,
+InstallationMonth_PV,float,1,
+InstallationYear_PV,float,1,
+InstallationDate_BESS,float,1,
+InstallationMonth_BESS,float,1,
+InstallationYear_BESS,float,1,
+kW_pv,float,1,PV System Size (kW_DC)
+ln_kW_pv,float,1,ln(PV System Size (kW_DC))
+ihs_kW_pv,float,1,asinh(PV System Size (kW_DC))
+tracking,byte,1,
+ground_mounted,byte,1,
+kW_inv,float,1,Inverter Size (kW)
+ln_kW_inv,float,1,ln(Inverter Size (kW))
+ihs_kW_inv,float,1,asinh(Inverter Size (kW))
+micro_inverter,float,1,=1 if any of the inverters are microinverters
+solar_storage_hybrid_inverter,float,1,=1 if any of the inverters are solar+storage hybrid inverters
+dc_optimizer,byte,1,DC_optimizer
+DC_coupled,float,1,
+TC,float,1,Total Installed Cost (Nominal)
+co_install_exact,float,1,=1 if PV array & BESS are installed on the exact same day
+co_install_30,float,1,=1 if PV array & BESS are installed within 1 to 30 days of each other
+co_install_60,float,1,=1 if PV array & BESS are installed within 31 to 60 days of each other
+co_install_90,float,1,=1 if PV array & BESS are installed within 61 to 90 days of each other
+co_install_120,float,1,=1 if PV array & BESS are installed within 91 to 120 days of each other
+TC_2020,float,1,Total Installed Cost (2020 dollars)
+ln_TC_2020,float,1,ln(Total Installed Cost) (2020 dollars)
+ihs_TC_2020,float,1,asinh(Total Installed Cost) (2020 dollars)
+subsidy_2020,float,1,"Rebate, Grant, or other Subsidy (2020 dollars)"
+ln_subsidy_2020,float,1,"ln(Rebate, Grant, or other Subsidy) (2020 dollars)"
+ihs_subsidy_2020,float,1,"asinh(Rebate, Grant, or other Subsidy) (2020 dollars)"
+_merge,byte,1,Matching result from merge
+coupling,float,1,
+PVSC_2020,float,1,PV System Costs (2020 dollars)
+ln_PVSC_2020,float,1,ln(PV System Costs (2020 dollars))
+co_install_BESS_first,float,1,
+co_install_bucket,float,1,
