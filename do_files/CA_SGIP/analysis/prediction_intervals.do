@@ -2,11 +2,17 @@ use "data\CA_SGIP\TTS_SGIP.dta"
 
 ////Estimate Basic Translog Model on Training Data
 
-reg ln_TEC_2020 c.ln_kWh##c.ln_kWh c.ln_kW##c.ln_kW c.ln_kWh#c.ln_kW ibn.ICYear#Residential if training_sample==1, vce(robust) noconstant noci
+reg ln_TEC_2020 c.ln_kWh##c.ln_kWh c.ln_kW##c.ln_kW c.ln_kWh#c.ln_kW ibn.ICYear#Residential i.coupling ln_elec_wage_median if training_sample==1, vce(robust) noconstant noci
 
-////Record RMSE
+////Record RMSE & Compute Normal Prediction Interval
 
 scalar RMSE_TL=e(rmse)
+
+di round(exp(invnormal(0.975)*RMSE_TL),0.001)
+di round(exp(invnormal(0.025)*RMSE_TL),0.001)
+
+di round(exp(invnormal(0.975)*RMSE_TL)-1,0.001)
+di round(1-exp(invnormal(0.025)*RMSE_TL),0.001)
 
 ////Compute Residuals
 
@@ -18,8 +24,7 @@ sum e_TL, detail
 scalar median=r(p50)
 
 //b: scale parameter (mean absolute deviation)
-predict XB_TL if training_sample==1, xb
-gen Abs_Dev=abs(XB_TL - ln_TEC_2020)
+gen Abs_Dev=abs(median - e_TL)
 sum Abs_Dev
 scalar mad=r(mean)
 
@@ -38,3 +43,10 @@ twoway (function y=normalden(x,0,RMSE_TL), range(`LL' `UL') lw(thick) lp(solid) 
 	graphregion(color(white) margin(l=1 t=1 b=1 r=1)) plotregion(color(white) margin(b=0)) bgcolor(white) ///
 	name("Figure_11", replace)
 graph export "manuscript\graphs\CA_SGIP\laplace_vs_normal.pdf", as(pdf) name("Figure_11") replace
+
+//Laplace Prediction Interval for the Translog Model
+
+di round(exp(invlaplace(median,mad,0.975))-1,0.001)
+di round(1-exp(invlaplace(median,mad,0.025)),0.001)
+
+clear
