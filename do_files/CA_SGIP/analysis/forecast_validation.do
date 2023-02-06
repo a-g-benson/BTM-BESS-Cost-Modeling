@@ -78,17 +78,27 @@ predict ln_CD_hat if validation_sample==1, xb
 gen CD_hat=exp(ln_CD_hat+0.5*e(rmse)^2) if validation_sample==1
 
 //Generate percent errors and look at median
-gen PE_CD=(TEC_2020-CD_hat)/TEC_2020
+gen PE_CD=(TEC_2020-CD_hat)/TEC_2020 if validation_sample==1
 sum PE_CD, detail
 
 //Generate absolute percent errors and compute mean
 gen APE_CD=abs(TEC_2020-CD_hat)/TEC_2020
 sum APE_CD
 
+////Compute Parameters of a Laplace Distribution
+predict e_CD if training_sample==1, r
+//mu: location parameter (median)
+sum e_CD, detail
+scalar median=r(p50)
+
+//b: scale parameter (mean absolute deviation)
+gen Abs_Dev_CD=abs(median - e_CD) if training_sample==1
+sum Abs_Dev_CD
+scalar mad=r(mean)
+
 //Generate Prediction Interval & Validate Calibration
-predict stdf_CD if validation_sample==1, stdf
-gen CD_hat_UB=exp(ln_CD_hat+invnormal(0.975)*stdf_CD)
-gen CD_hat_LB=exp(ln_CD_hat-invnormal(0.975)*stdf_CD)
+gen CD_hat_UB=exp(ln_CD_hat+invlaplace(median,mad,0.975)) if validation_sample==1
+gen CD_hat_LB=exp(ln_CD_hat+invlaplace(median,mad,0.025)) if validation_sample==1
 
 gen TEC_within_CD_pred=(TEC_2020<CD_hat_UB & TEC_2020>CD_hat_LB) if validation_sample==1
 tab TEC_within_CD_pred
@@ -111,10 +121,20 @@ sum PE_TL, detail
 gen APE_TL=abs(TEC_2020-TL_hat)/TEC_2020
 sum APE_TL
 
+////Compute Parameters of a Laplace Distribution
+predict e_TL if training_sample==1, r
+//mu: location parameter (median)
+sum e_TL, detail
+scalar median=r(p50)
+
+//b: scale parameter (mean absolute deviation)
+gen Abs_Dev_TL=abs(median - e_TL) if training_sample==1
+sum Abs_Dev_TL
+scalar mad=r(mean)
+
 //Generate Prediction Interval & Validate Calibration
-predict stdf_TL if validation_sample==1, stdf
-gen TL_hat_UB=exp(ln_TL_hat+invnormal(0.975)*stdf_TL)
-gen TL_hat_LB=exp(ln_TL_hat-invnormal(0.975)*stdf_TL)
+gen TL_hat_UB=exp(ln_CD_hat+invlaplace(median,mad,0.975)) if validation_sample==1
+gen TL_hat_LB=exp(ln_CD_hat+invlaplace(median,mad,0.025)) if validation_sample==1
 
 gen TEC_within_TL_pred=(TEC_2020<TL_hat_UB & TEC_2020>TL_hat_LB) if validation_sample==1
 tab TEC_within_TL_pred
@@ -122,3 +142,14 @@ tab TEC_within_TL_pred
 ///Kernel Density Histogram of Prediction Errors: ATB Advanced vs. Translog
 
 do "do_files\CA_SGIP\data_presentation\prediction_error_kdensity.do"
+
+//What % of validation sample has discharge duration in excess of 2.64 hours?
+
+count if duration>=2.65 & validation_sample==1
+scalar long_duration_N=r(N)
+count if validation_sample==1
+scalar validation_N=r(N)
+
+di round(long_duration_N/validation_N*100,0.1) "% of the validation sample exceeds 2.64 hours of discharge duration"
+
+clear
